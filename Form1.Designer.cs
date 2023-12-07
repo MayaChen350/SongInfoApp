@@ -38,6 +38,7 @@
             this.lblTag = new System.Windows.Forms.Label();
             this.lblError = new System.Windows.Forms.Label();
             this.llblCredits = new System.Windows.Forms.LinkLabel();
+            this.lblAlbumNotFound = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.albumDisplayed)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,12 +137,26 @@
             this.llblCredits.VisitedLinkColor = System.Drawing.Color.Black;
             this.llblCredits.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llblCredits_LinkClicked);
             // 
+            // lblAlbumNotFound
+            // 
+            this.lblAlbumNotFound.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblAlbumNotFound.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAlbumNotFound.ForeColor = System.Drawing.Color.Black;
+            this.lblAlbumNotFound.Location = new System.Drawing.Point(92, 88);
+            this.lblAlbumNotFound.Name = "lblAlbumNotFound";
+            this.lblAlbumNotFound.Size = new System.Drawing.Size(246, 231);
+            this.lblAlbumNotFound.TabIndex = 13;
+            this.lblAlbumNotFound.Text = "Album cover\r\nnot found\r\n";
+            this.lblAlbumNotFound.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAlbumNotFound.Visible = false;
+            // 
             // Form1
             // 
             this.AcceptButton = this.btnGenerate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblAlbumNotFound);
             this.Controls.Add(this.llblCredits);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.lblTag);
@@ -173,6 +188,7 @@
         private System.Windows.Forms.TextBox txtArtist;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.LinkLabel llblCredits;
+        private System.Windows.Forms.Label lblAlbumNotFound;
     }
 }
 
