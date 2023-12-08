@@ -3,23 +3,39 @@ using System.Collections.Generic;
 using Hqub.Lastfm;
 using System.Windows.Forms;
 using Hqub.Lastfm.Entities;
-// using SpotifyAPI.Web;
+using SpotifyAPI.Web;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SongInfoTest
 {
-    public partial class Form1 : Form
+    
+    public partial class Form1 : MetroFramework.Forms.MetroForm
     {
 
         public Form1()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            // Spotify API
+            spotifyClient();
+            lblTag.Text = "";
+        }
+
+        // Spotify API
+        public static async void spotifyClient()
+        {
+            var config = SpotifyClientConfig.CreateDefault();
+            var request = new ClientCredentialsRequest("c0f5291cd00141f095402fd9d85be0e6", "687f4738b74c4ef2b8f4a9e7081b487a");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            clientSpotify = new SpotifyClient(config.WithToken(response.AccessToken));
         }
 
         // Parent objects
         static LastfmClient clientFM = new LastfmClient("cc9eb261fc35326d97d7492dda22bdf5");
-    //    static SpotifyClient clientSpotify = new SpotifyClient("c0f5291cd00141f095402fd9d85be0e6");
+        static SpotifyClient clientSpotify;
 
         private void txtInfo_TextChanged(object sender, EventArgs e)
         {
@@ -30,9 +46,7 @@ namespace SongInfoTest
         {
             try
             {
-                Track track = await clientFM.Track.GetInfoAsync(song, artist);
-                return track;
-
+                return await clientFM.Track.GetInfoAsync(song, artist);
             }
             catch (Exception e) // If the track is not found return null
             {
@@ -44,9 +58,7 @@ namespace SongInfoTest
         {
             try
             {
-                // string album =
                 return track.Album.Images[3].Url;
-                // return album;
             }
             catch (Exception e) { return null; }
         }
@@ -61,28 +73,24 @@ namespace SongInfoTest
             catch (Exception e) { return null; }
         }
 
-      /*  private async Task<string> GetSpotifyLink(string song, string artist)
+        private async Task<string> GetSpotifyLink(string song, string artist)
         {
-            string songNameQuery = "q=";
-            foreach (var item in song.Split(' '))
-            {
-                songNameQuery += item;
-            }
-
-            SearchRequest searchRequest = new SearchRequest((SearchRequest.Types.Track), songNameQuery + artist + "&type=track");
             try
             {
-                var track = await clientSpotify.Search.Item(searchRequest);
-                return track.Tracks.Items.First().ExternalUrls.Values.First();
+                SearchRequest searchRequest = new SearchRequest(SearchRequest.Types.Track, $@"%20track:{song}%20artist:{artist}");
+                SearchResponse tracks = await clientSpotify.Search.Item(searchRequest);
+
+                return tracks.Tracks.Items.First().ExternalUrls.First().Value;
             }
             catch (Exception e) { return null; }
-        }*/
+        }
 
         private async void DisplaySongInfos(string song, string artist)
         {
             Track track = await GetTrack(song, artist);
             string album = GetAlbum(track);
             string topTag = await GetTopTag(song, artist);
+            string spotifyLink = await GetSpotifyLink(song, artist);
 
             if (track != null) // Only works if the track is found
             {
@@ -94,7 +102,11 @@ namespace SongInfoTest
                     albumDisplayed.ImageLocation = album;
                     lblAlbumNotFound.Visible = false;
                 }
-                else lblAlbumNotFound.Visible = true;
+                else
+                {
+                    lblAlbumNotFound.Visible = true;
+                    albumDisplayed.ImageLocation = null;
+                }
 
                 // Display the song's top genre (last.fm tag)
                 if (topTag != null)
@@ -102,6 +114,9 @@ namespace SongInfoTest
                 else lblTag.Text = "No song genre found";
 
                 // Display the available playbabilities
+                if (spotifyLink != null)
+                    spotifyLogo.Visible = true;
+                else spotifyLogo.Visible = false;
 
             }
             else lblError.Show();
@@ -117,10 +132,10 @@ namespace SongInfoTest
             System.Diagnostics.Process.Start("https://www.last.fm/api");
         }
 
-/*        private void spotifyLogo_Click(object sender, EventArgs e)
+        private async void spotifyLogo_Click(object sender, EventArgs e)
         {
-            string link = GetSpotifyLink(txtSong.Text, txtArtist.Text);
-            System.Diagnostics.Process.Start();
-        }*/
+            string link = await GetSpotifyLink(txtSong.Text, txtArtist.Text);
+            System.Diagnostics.Process.Start(link);
+        }
     }
 }
