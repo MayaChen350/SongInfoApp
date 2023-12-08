@@ -39,7 +39,13 @@
             this.lblError = new System.Windows.Forms.Label();
             this.llblCredits = new System.Windows.Forms.LinkLabel();
             this.lblAlbumNotFound = new System.Windows.Forms.Label();
+            this.ytLogo = new System.Windows.Forms.PictureBox();
+            this.spotifyLogo = new System.Windows.Forms.PictureBox();
+            this.amLogo = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.albumDisplayed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ytLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spotifyLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.amLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // albumDisplayed
@@ -115,7 +121,7 @@
             this.lblError.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.Brown;
-            this.lblError.Location = new System.Drawing.Point(493, 227);
+            this.lblError.Location = new System.Drawing.Point(483, 227);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(282, 79);
             this.lblError.TabIndex = 10;
@@ -150,12 +156,51 @@
             this.lblAlbumNotFound.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblAlbumNotFound.Visible = false;
             // 
+            // ytLogo
+            // 
+            this.ytLogo.BackColor = System.Drawing.Color.Transparent;
+            this.ytLogo.Image = global::SongInfoApp.Properties.Resources.yt;
+            this.ytLogo.Location = new System.Drawing.Point(29, 172);
+            this.ytLogo.Name = "ytLogo";
+            this.ytLogo.Size = new System.Drawing.Size(43, 43);
+            this.ytLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.ytLogo.TabIndex = 14;
+            this.ytLogo.TabStop = false;
+            this.ytLogo.Visible = false;
+            // 
+            // spotifyLogo
+            // 
+            this.spotifyLogo.BackColor = System.Drawing.Color.Transparent;
+            this.spotifyLogo.Image = global::SongInfoApp.Properties.Resources.spotify;
+            this.spotifyLogo.Location = new System.Drawing.Point(29, 123);
+            this.spotifyLogo.Name = "spotifyLogo";
+            this.spotifyLogo.Size = new System.Drawing.Size(43, 43);
+            this.spotifyLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.spotifyLogo.TabIndex = 15;
+            this.spotifyLogo.TabStop = false;
+            this.spotifyLogo.Visible = false;
+            // 
+            // amLogo
+            // 
+            this.amLogo.BackColor = System.Drawing.Color.Transparent;
+            this.amLogo.Image = global::SongInfoApp.Properties.Resources.applemusic;
+            this.amLogo.Location = new System.Drawing.Point(29, 221);
+            this.amLogo.Name = "amLogo";
+            this.amLogo.Size = new System.Drawing.Size(43, 43);
+            this.amLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.amLogo.TabIndex = 16;
+            this.amLogo.TabStop = false;
+            this.amLogo.Visible = false;
+            // 
             // Form1
             // 
             this.AcceptButton = this.btnGenerate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.amLogo);
+            this.Controls.Add(this.spotifyLogo);
+            this.Controls.Add(this.ytLogo);
             this.Controls.Add(this.lblAlbumNotFound);
             this.Controls.Add(this.llblCredits);
             this.Controls.Add(this.lblError);
@@ -172,6 +217,9 @@
             this.Name = "Form1";
             this.Text = "Song Info App";
             ((System.ComponentModel.ISupportInitialize)(this.albumDisplayed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ytLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spotifyLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.amLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,6 +237,9 @@
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.LinkLabel llblCredits;
         private System.Windows.Forms.Label lblAlbumNotFound;
+        private System.Windows.Forms.PictureBox ytLogo;
+        private System.Windows.Forms.PictureBox spotifyLogo;
+        private System.Windows.Forms.PictureBox amLogo;
     }
 }
 

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using Hqub.Lastfm;
 using System.Windows.Forms;
 using Hqub.Lastfm.Entities;
+// using SpotifyAPI.Web;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics.Tracing;
-using System.Reflection;
 
 namespace SongInfoTest
 {
@@ -18,8 +17,9 @@ namespace SongInfoTest
             InitializeComponent();
         }
 
-        // Parent object
-        static LastfmClient client = new LastfmClient("cc9eb261fc35326d97d7492dda22bdf5");
+        // Parent objects
+        static LastfmClient clientFM = new LastfmClient("cc9eb261fc35326d97d7492dda22bdf5");
+    //    static SpotifyClient clientSpotify = new SpotifyClient("c0f5291cd00141f095402fd9d85be0e6");
 
         private void txtInfo_TextChanged(object sender, EventArgs e)
         {
@@ -30,7 +30,7 @@ namespace SongInfoTest
         {
             try
             {
-                Track track = await client.Track.GetInfoAsync(song, artist);
+                Track track = await clientFM.Track.GetInfoAsync(song, artist);
                 return track;
 
             }
@@ -55,13 +55,30 @@ namespace SongInfoTest
         {
             try
             {
-                List<Tag> tags = await client.Track.GetTopTagsAsync(song, artist);
+                List<Tag> tags = await clientFM.Track.GetTopTagsAsync(song, artist);
                 return tags.First().Name;
             }
             catch (Exception e) { return null; }
         }
 
-        private async void GetSongInfos(string song, string artist)
+      /*  private async Task<string> GetSpotifyLink(string song, string artist)
+        {
+            string songNameQuery = "q=";
+            foreach (var item in song.Split(' '))
+            {
+                songNameQuery += item;
+            }
+
+            SearchRequest searchRequest = new SearchRequest((SearchRequest.Types.Track), songNameQuery + artist + "&type=track");
+            try
+            {
+                var track = await clientSpotify.Search.Item(searchRequest);
+                return track.Tracks.Items.First().ExternalUrls.Values.First();
+            }
+            catch (Exception e) { return null; }
+        }*/
+
+        private async void DisplaySongInfos(string song, string artist)
         {
             Track track = await GetTrack(song, artist);
             string album = GetAlbum(track);
@@ -84,13 +101,15 @@ namespace SongInfoTest
                     lblTag.Text = "Song genre: " + topTag;
                 else lblTag.Text = "No song genre found";
 
+                // Display the available playbabilities
+
             }
             else lblError.Show();
         }
 
         private void btnGenerate_ClickAsync(object sender, EventArgs e)
         {
-            GetSongInfos(txtSong.Text, txtArtist.Text);
+            DisplaySongInfos(txtSong.Text, txtArtist.Text);
         }
 
         private void llblCredits_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -98,5 +117,10 @@ namespace SongInfoTest
             System.Diagnostics.Process.Start("https://www.last.fm/api");
         }
 
+/*        private void spotifyLogo_Click(object sender, EventArgs e)
+        {
+            string link = GetSpotifyLink(txtSong.Text, txtArtist.Text);
+            System.Diagnostics.Process.Start();
+        }*/
     }
 }
